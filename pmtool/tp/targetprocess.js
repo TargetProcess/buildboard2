@@ -15,7 +15,8 @@ class Targetprocess {
     *_request(resource, select = "", where = "") {
         let options = this._getOptions(resource, select, where);
         let response = yield request(options); //Yay, HTTP requests with no callbacks!
-        return JSON.parse(response.body);
+        let body = JSON.parse(response.body);
+        return body.items || body;
     }
 
     *getUsers() {
@@ -23,7 +24,8 @@ class Targetprocess {
     }
 
     *getEntities() {
-        return yield this._request('assignable', "{id,name,state:{entityState.id,entityState.name}}");
+        return yield this._request('assignable', "{id,type:entityType.name,name,state:{entityState.id,entityState.name}}");
+
     }
 
 

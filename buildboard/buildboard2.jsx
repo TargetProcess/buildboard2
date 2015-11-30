@@ -1,6 +1,7 @@
 Items = new Mongo.Collection("items");
 
 
+
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
@@ -12,6 +13,11 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+    var config = JSON.parse(Assets.getText("config.json"));
+    var getEntities = function () {
+        return HTTP.get(config.pmtool.url + 'entities').data.entities;
+    };
+
   Meteor.startup(function() {
       if (Items.find().count() === 0) {
           Items.insert(
