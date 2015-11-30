@@ -4,7 +4,7 @@
   "description": "Targetprocess PM tool for BuildBoard",
   "main": "index.js",
   "scripts": {
-    "start": "pm2-dev run index.js",
+    "start": "pm2 --watch --no-daemon --no-autorestart start  index.js --node-args=\"--harmony_default_parameters\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Taucraft",
