@@ -3,7 +3,7 @@ if (Meteor.isClient) {
   Session.setDefault('counter', 0);
 
   Template.hello.helpers({
-    counter: function () {
+    counter() {
       return Session.get('counter');
     }
   });
@@ -17,7 +17,7 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
+  Meteor.startup(()=> {
+    console.log('hello');
   });
 }
