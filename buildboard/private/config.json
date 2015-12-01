@@ -1,5 +1,8 @@
 {
-  "pmtool": {
+  "pmTool": {
     "url": "http://localhost:3333/"
+  },
+  "codeTool": {
+    "url": "http://localhost:3334/"
   }
 }

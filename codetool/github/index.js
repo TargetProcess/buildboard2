@@ -19,20 +19,13 @@ github.authenticate({
     token: process.env.TOKEN
 });
 
-
-
 app.use(json());
 app.use(logger());
 
 // route middleware
 
 app.use(route.get('/', capabilities));
-//app.use(route.get('/entities', capabilities));
 app.use(route.get('/branches', branches));
-//app.use(route.post('/entities/:id', capabilities));
-//app.use(route.get('/post/new', add));
-//app.use(route.get('/post/:id', show));
-//app.use(route.post('/post', create));
 
 app.listen(3334);
 
@@ -40,7 +33,6 @@ app.listen(3334);
 function *branches() {
     this.body = {branches: yield github.repos.getBranches({user: 'TargetProcess', repo: "buildboard2"})};
 }
-
 
 function *capabilities() {
     this.body = yield {entities: []};

@@ -8,6 +8,6 @@ App = React.createClass({
     },
 
     render(){
-        return <div>{this.data.items.map(item=>{return <div key="{item.task.id}">{item.task.name}</div>})}</div>;
+        return <div>{this.data.items.map(item=>{return <div key={item._id}>{JSON.stringify(item)}<br/></div>})}</div>;
    }
 });
