@@ -1,13 +1,13 @@
 let mapItems = (bracnhes, entities) => {
     let branchRegex = /feature\/(?:us|bug)(\d+)\w*/ig;
-    let entityMap = _.reduce(entities, (memo, entity)=> {
-        memo[entity.id] = entity;
+    let taskMap = _.reduce(entities, (memo, task)=> {
+        memo[task.id] = task;
         return memo;
     }, {});
 
     return _.map(bracnhes, branch => {
         let [,id] = branchRegex.exec(branch.name) || [];
-        return {branch, task: entityMap[id]};
+        return {branch, task: taskMap[id]};
     });
 };
 
@@ -18,13 +18,11 @@ Meteor.startup(()=> {
     var pmTool = new PMTool(config.pmTool.url);
     var codeTool = new CodeTool(config.codeTool.url);
 
-    var entities = pmTool.getEntities();
+    var tasks = pmTool.getTasks();
     var branches = codeTool.getBranches();
 
-    var items = mapItems(branches, entities);
+    var items = mapItems(branches, tasks);
 
     Items.remove({});
     items.forEach(i=>Items.insert(i));
-
-    console.log(Items.find({}).fetch());
 });

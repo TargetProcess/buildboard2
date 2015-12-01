@@ -1,0 +1,27 @@
+{
+  "name": "buildboard2",
+  "version": "0.0.1",
+  "description": "buildboard set",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "tape": "^4.2.2"
+  },
+  "scripts": {
+    "test": "tape test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TargetProcess/buildboard2.git"
+  },
+  "keywords": [
+    "buildboard",
+    "set"
+  ],
+  "author": "Taucraft",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TargetProcess/buildboard2/issues"
+  },
+  "homepage": "https://github.com/TargetProcess/buildboard2#readme"
+}

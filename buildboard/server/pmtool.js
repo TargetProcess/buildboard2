@@ -3,9 +3,9 @@ PMTool = class PMTool {
         this._url = url;
     }
 
-    getEntities() {
+    getTasks() {
         console.log(this._url);
-        return HTTP.get(this._url + 'entities').data.entities;
+        return HTTP.get(this._url + 'tasks').data.tasks;
     }
 };
 

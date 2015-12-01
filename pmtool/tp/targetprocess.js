@@ -23,7 +23,7 @@ class Targetprocess {
         return yield this._request('user', "{id,email}");
     }
 
-    *getEntities() {
+    *getAssignables() {
         return yield this._request('assignable', "{id,type:entityType.name,name,state:{entityState.id,entityState.name}}");
 
     }

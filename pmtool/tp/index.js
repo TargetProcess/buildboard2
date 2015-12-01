@@ -17,13 +17,8 @@ app.use(logger());
 // route middleware
 
 app.use(route.get('/', capabilities));
-//app.use(route.get('/entities', capabilities));
 app.use(route.get('/users', users));
-app.use(route.get('/entities', entities));
-//app.use(route.post('/entities/:id', capabilities));
-//app.use(route.get('/post/new', add));
-//app.use(route.get('/post/:id', show));
-//app.use(route.post('/post', create));
+app.use(route.get('/tasks', tasks));
 
 app.listen(3333);
 
@@ -32,10 +27,10 @@ function *users() {
     this.body = {users: yield tp.getUsers()};
 }
 
-function *entities() {
-    this.body = {entities: yield tp.getEntities()};
+function *tasks() {
+    this.body = {tasks: yield tp.getAssignables()};
 }
 
 function *capabilities() {
-    this.body = yield {entities: []};
+    this.body = yield {tasks: []};
 }
