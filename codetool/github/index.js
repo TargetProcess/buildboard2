@@ -6,7 +6,10 @@ var route = require('koa-route');
 var json = require('koa-json');
 var Github = require('github');
 var wrapper = require('co-github');
+var _ = require('lodash');
+
 var app = koa();
+
 var github = wrapper(new Github({
     version: "3.0.0",
     debug: true,
@@ -31,7 +34,31 @@ app.listen(3334);
 
 
 function *branches() {
-    this.body = {branches: yield github.repos.getBranches({user: 'TargetProcess', repo: "buildboard2"})};
+    //yield github.repos.pullRequests
+    var repo = {user: 'TargetProcess', repo: "buildboard2"};
+
+    var branches = yield github.repos.getBranches(repo);
+    var pullRequests = yield github.pullRequests.getAll(repo);
+
+    var pullRequestMap = _.groupBy(pullRequests, pr=>pr.head.ref);
+
+    this.body = _.map(branches, b=> {
+        let pullRequestsForBranch = pullRequestMap[b.name] || [];
+
+        return {
+            branchId: b.name,
+            name: b.name,
+            sha: b.commit.sha,
+            pullRequests: _.map(pullRequestsForBranch, pr=> {
+                return {
+                    id: pr.number,
+                    status: pr.state,
+                    sha: pr.merge_commit_sha
+                };
+            })
+        }
+    });
+
 }
 
 function *capabilities() {

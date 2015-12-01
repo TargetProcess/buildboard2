@@ -1,23 +1,24 @@
 {
-  "name": "github-code-tool",
+  "name": "travisci-build-tool",
   "version": "1.0.0",
-  "description": "Github tool for BuildBoard",
+  "description": "Travis CI tool for BuildBoard",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 --watch --no-daemon --no-autorestart start  index.js --node-args=\"--harmony_default_parameters\"",
+    "start": "pm2 --watch --no-daemon --no-autorestart start  --node-args=\"--harmony_destructuring\"  index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Taucraft",
   "license": "ISC",
   "dependencies": {
-    "co-github": "^1.0.0",
-    "github": "^0.2.4",
     "koa": "^1.1.2",
     "koa-json": "^1.1.1",
     "koa-logger": "^1.3.0",
     "koa-request": "^1.0.0",
     "koa-route": "^2.4.2",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "thunkify": "^2.1.2",
+    "thunkify-wrap": "^1.0.4",
+    "travis-ci": "^2.0.3"
   },
   "devDependencies": {
     "pm2": "^0.15.10"

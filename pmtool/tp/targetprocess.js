@@ -8,12 +8,12 @@ class Targetprocess {
         this._root = `https://${account}.tpondemand.com/api/v2`;
     }
 
-    _getOptions(resource, select, where) {
-        return {url: `${this._root}/${resource}?select=${select}&where=${where}&take=1000&token=${this._token}`};
+    _getOptions(resource, select) {
+        return {url: `${this._root}/${resource}?select=${select || ""}&take=1000&token=${this._token}`};
     }
 
-    *_request(resource, select = "", where = "") {
-        let options = this._getOptions(resource, select, where);
+    *_request(resource, select) {
+        let options = this._getOptions(resource, select);
         let response = yield request(options); //Yay, HTTP requests with no callbacks!
         let body = JSON.parse(response.body);
         return body.items || body;
@@ -24,7 +24,7 @@ class Targetprocess {
     }
 
     *getAssignables() {
-        return yield this._request('assignable', "{id,type:entityType.name,name,state:{entityState.id,entityState.name}}");
+        return yield this._request('assignable', "{pmId:id,type:entityType.name,name,state:{entityState.id,entityState.name}}");
 
     }
 
