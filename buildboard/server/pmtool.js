@@ -4,7 +4,6 @@ PMTool = class PMTool {
     }
 
     getTasks() {
-        console.log(this._url);
         return HTTP.get(this._url + 'tasks').data.tasks;
     }
 };

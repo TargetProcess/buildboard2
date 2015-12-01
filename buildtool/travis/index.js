@@ -32,19 +32,21 @@ function *builds() {
 
     let commitMap = _.indexBy(commits, 'id');
 
-    this.body = _.map(builds, b=> {
-        var commit = commitMap[b.commit_id];
-        return {
-            buildId: b.id,
-            started: b.started_at,
-            finished: b.finished_atm,
-            duration: b.duration,
-            sha: commit.sha,
-            pullRequest: commit.pull_request_number,
-            branch: commit.branch,
-            status: b.state
-        };
-    });
+    this.body = {
+        builds: _.map(builds, b=> {
+            var commit = commitMap[b.commit_id];
+            return {
+                buildId: b.id,
+                started: b.started_at,
+                finished: b.finished_atm,
+                duration: b.duration,
+                sha: commit.sha,
+                pullRequest: commit.pull_request_number,
+                branch: commit.branch,
+                status: b.state
+            };
+        })
+    };
 }
 
 function *capabilities() {

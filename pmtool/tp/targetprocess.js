@@ -27,8 +27,6 @@ class Targetprocess {
         return yield this._request('assignable', "{pmId:id,type:entityType.name,name,state:{entityState.id,entityState.name}}");
 
     }
-
-
 }
 
 module.exports = Targetprocess;

@@ -42,22 +42,24 @@ function *branches() {
 
     var pullRequestMap = _.groupBy(pullRequests, pr=>pr.head.ref);
 
-    this.body = _.map(branches, b=> {
-        let pullRequestsForBranch = pullRequestMap[b.name] || [];
+    this.body = {
+        branches: _.map(branches, b=> {
+            let pullRequestsForBranch = pullRequestMap[b.name] || [];
 
-        return {
-            branchId: b.name,
-            name: b.name,
-            sha: b.commit.sha,
-            pullRequests: _.map(pullRequestsForBranch, pr=> {
-                return {
-                    id: pr.number,
-                    status: pr.state,
-                    sha: pr.merge_commit_sha
-                };
-            })
-        }
-    });
+            return {
+                branchId: b.name,
+                name: b.name,
+                sha: b.commit.sha,
+                pullRequests: _.map(pullRequestsForBranch, pr=> {
+                    return {
+                        id: pr.number,
+                        status: pr.state,
+                        sha: pr.merge_commit_sha
+                    };
+                })
+            }
+        })
+    };
 
 }
 
