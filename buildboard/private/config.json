@@ -4,5 +4,8 @@
   },
   "codeTool": {
     "url": "http://localhost:3334/"
+  },
+  "buildTool": {
+    "url": "http://localhost:3335/"
   }
 }

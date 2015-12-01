@@ -18,3 +18,12 @@ CodeTool = class CodeTool {
     }
 };
 
+BuildTool = class BuildTool {
+    constructor(url) {
+        this._url = url;
+    }
+
+    getBuilds() {
+        return HTTP.get(this._url + 'builds').data.builds;
+    }
+};
