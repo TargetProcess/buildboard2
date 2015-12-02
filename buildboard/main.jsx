@@ -1,4 +1,8 @@
-Items = new Mongo.Collection("items");
+account = "buildboard";
+
+Items = new Mongo.Collection(`${account}-items`);
+
+
 let mapItems = (bracnhes, tasks, builds) => {
     let branchRegex = /feature\/(?:us|bug)(\d+)\w*/ig;
     let taskMap = _.indexBy(tasks, 'pmId');
@@ -19,23 +23,31 @@ let mapItems = (bracnhes, tasks, builds) => {
     });
 };
 
+if (Meteor.isServer) {
+    var accountConfig = JSON.parse(Assets.getText("config.json"));
+}
 
-Router.route('/refresh', function () {
-    var config = JSON.parse(Assets.getText("config.json"));
+Router.route('/:account/refresh', function () {
+    var config = accountConfig.accounts[this.params.account];
+    if (config) {
+        var pmTool = new PMTool(this.params.account, config.pmTool);
+        var codeTool = new CodeTool(this.params.account, config.codeTool);
+        var buildTool = new BuildTool(this.params.account, config.buildTool);
 
-    var pmTool = new PMTool(config.pmTool);
-    var codeTool = new CodeTool(config.codeTool);
-    var buildTool = new BuildTool(config.buildTool);
+        var tasks = pmTool.getTasks();
+        var branches = codeTool.getBranches();
+        var builds = buildTool.getBuilds();
+        var items = mapItems(branches, tasks, builds);
 
-    var tasks = pmTool.getTasks();
-    var branches = codeTool.getBranches();
-    var builds = buildTool.getBuilds();
-    var items = mapItems(branches, tasks, builds);
+        Items.remove({});
+        items.forEach(i=>Items.insert(i));
 
-    Items.remove({});
-    items.forEach(i=>Items.insert(i));
-
-    this.response.end(JSON.stringify(items));
+        this.response.end(JSON.stringify(items));
+    }
+    else {
+        this.response.statusCode = 404;
+        this.response.end(JSON.stringify({status: "404", message: `account "${this.params.account}" not found.`}));
+    }
 }, {where: 'server'});
 
 Router.route('/', function () {

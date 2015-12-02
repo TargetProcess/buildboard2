@@ -1,29 +1,28 @@
-PMTool = class PMTool {
-    constructor(config) {
+class ToolBase {
+    constructor(account, config) {
         this._url = config.url;
+        this._account = account;
     }
 
+    _get(resource) {
+        return HTTP.get(this._url + `${this._account}/${resource}`).data[resource];
+    }
+}
+
+PMTool = class PMTool extends ToolBase {
     getTasks() {
-        return HTTP.get(this._url + 'tasks').data.tasks;
+        return this._get('tasks');
     }
 };
 
-CodeTool = class CodeTool {
-    constructor(config) {
-        this._url = config.url;
-    }
-
+CodeTool = class CodeTool extends ToolBase {
     getBranches() {
-        return HTTP.get(this._url + 'branches').data.branches;
+        return this._get('branches');
     }
 };
 
-BuildTool = class BuildTool {
-    constructor(config) {
-        this._url = config.url;
-    }
-
+BuildTool = class BuildTool extends ToolBase {
     getBuilds() {
-        return HTTP.get(this._url + 'builds').data.builds;
+        return this._get('builds');
     }
 };
