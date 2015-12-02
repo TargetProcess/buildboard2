@@ -1,6 +1,5 @@
 'use strict';
 
-var bootstrap = require('tool-bootstrap').bootstrap;
 var Travis = require('travis-ci');
 
 var genify = require('thunkify-wrap').genify;
@@ -11,13 +10,24 @@ var travis = new Travis({
 });
 
 
-var accountConfig = require('./config.json');
+var bootstrap = require('tool-bootstrap').bootstrap;
 
-bootstrap({accountConfig, port: 3335}, ({router})=> {
-    router
-        .get('/:account/builds', builds);
+bootstrap(
+    {
+        mongo: {
+            host: 'localhost',
+            port: 3001,
+            db: 'buildtool-travis'
+        },
+        port: 3335
 
-});
+    },
+    ({router})=> {
+        router
+            .get('/:account/builds', builds);
+    }
+);
+
 
 var getBuilds = genify(({user,repo}, callback)=>travis.repos(user, repo).builds.get(callback));
 

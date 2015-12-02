@@ -6,14 +6,20 @@ var _ = require('lodash');
 
 var bootstrap = require('tool-bootstrap').bootstrap;
 
-var accountConfig = require('./config.json');
+bootstrap(
+    {
+        mongo: {
+            host: 'localhost',
+            port: 3001,
+            db: 'codetool-github'
+        },
+        port: 3334
 
-bootstrap({
-    accountConfig,
-    port: 3334
-}, ({router})=> {
-    router.get('/:account/branches', branches);
-});
+    },
+
+    ({router})=> {
+        router.get('/:account/branches', branches);
+    });
 
 
 function *branches() {

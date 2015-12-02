@@ -10,6 +10,8 @@
   "author": "Taucraft",
   "license": "ISC",
   "dependencies": {
+    "koa-request": "^1.0.0",
+    "thunkify-wrap": "^1.0.4"
   },
   "devDependencies": {
     "pm2": "^0.15.10"

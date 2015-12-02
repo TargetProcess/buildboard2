@@ -2,16 +2,19 @@
 
 var bootstrap = require('tool-bootstrap').bootstrap;
 
-var accountConfig = require('./config.json');
+bootstrap(
+    {
+        mongo: {
+            host: 'localhost',
+            port: 3001,
+            db: 'pmtool-tp'
+        },
+        port: 3333
 
-
-bootstrap({
-    accountConfig,
-    port: 3333
-}, ({router})=> {
-    router.get('/:account/tasks', tasks);
-});
-
+    },
+    ({router})=> {
+        router.get('/:account/tasks', tasks);
+    });
 
 var TP = require('./targetprocess.js');
 
