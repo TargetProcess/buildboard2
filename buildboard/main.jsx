@@ -51,9 +51,9 @@ Router.route('/:account/refresh', function () {
 }, {where: 'server'});
 
 Router.route('/', function () {
-    Template.index.onRendered(function () {
+    Template.page.onRendered(function () {
         ReactDOM.render(<App />, document.getElementById("render-target"));
     });
-    this.render('index');
+    this.render('page');
 
 });
