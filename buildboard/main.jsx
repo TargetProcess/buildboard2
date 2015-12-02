@@ -23,9 +23,9 @@ let mapItems = (bracnhes, tasks, builds) => {
 Router.route('/refresh', function () {
     var config = JSON.parse(Assets.getText("config.json"));
 
-    var pmTool = new PMTool(config.pmTool.url);
-    var codeTool = new CodeTool(config.codeTool.url);
-    var buildTool = new BuildTool(config.buildTool.url);
+    var pmTool = new PMTool(config.pmTool);
+    var codeTool = new CodeTool(config.codeTool);
+    var buildTool = new BuildTool(config.buildTool);
 
     var tasks = pmTool.getTasks();
     var branches = codeTool.getBranches();

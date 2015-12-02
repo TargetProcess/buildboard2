@@ -3,7 +3,7 @@
 var request = require('koa-request');
 
 class Targetprocess {
-    constructor(token, account) {
+    constructor({token, account}) {
         this._token = token;
         this._root = `https://${account}.tpondemand.com/api/v2`;
     }
@@ -19,10 +19,10 @@ class Targetprocess {
         return body.items || body;
     }
 
-    *getUsers() {
+    /* *getUsers() {
         return yield this._request('user', "{id,email}");
     }
-
+     */
     *getAssignables() {
         return yield this._request('assignable', "{pmId:id,type:entityType.name,name,state:{entityState.id,entityState.name}}");
 

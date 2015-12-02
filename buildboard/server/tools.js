@@ -1,6 +1,6 @@
 PMTool = class PMTool {
-    constructor(url) {
-        this._url = url;
+    constructor(config) {
+        this._url = config.url;
     }
 
     getTasks() {
@@ -9,8 +9,8 @@ PMTool = class PMTool {
 };
 
 CodeTool = class CodeTool {
-    constructor(url) {
-        this._url = url;
+    constructor(config) {
+        this._url = config.url;
     }
 
     getBranches() {
@@ -19,8 +19,8 @@ CodeTool = class CodeTool {
 };
 
 BuildTool = class BuildTool {
-    constructor(url) {
-        this._url = url;
+    constructor(config) {
+        this._url = config.url;
     }
 
     getBuilds() {

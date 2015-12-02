@@ -1,43 +1,35 @@
 'use strict';
 
-var koa = require('koa');
-var logger = require('koa-logger');
-var route = require('koa-route');
-var json = require('koa-json');
 var Github = require('github');
 var wrapper = require('co-github');
 var _ = require('lodash');
 
-var app = koa();
+var bootstrap = require('tool-bootstrap').bootstrap;
 
-var github = wrapper(new Github({
-    version: "3.0.0",
-    debug: true,
-    protocol: "https",
-    host: "api.github.com",
-    timeout: 5000
-}));
-github.authenticate({
-    type: "oauth",
-    token: process.env.TOKEN
+var accountConfig = require('./config.json');
+
+bootstrap({
+    accountConfig,
+    port: 3334
+}, ({router})=> {
+    router.get('/:account/branches', branches);
 });
-
-app.use(json());
-app.use(logger());
-
-// route middleware
-
-app.use(route.get('/', capabilities));
-app.use(route.get('/branches', branches));
-
-app.listen(3334);
 
 
 function *branches() {
-    var repo = {user: 'TargetProcess', repo: "buildboard2"};
 
-    var branches = yield github.repos.getBranches(repo);
-    var pullRequests = yield github.pullRequests.getAll(repo);
+    var github = wrapper(new Github({
+        version: "3.0.0",
+        debug: true,
+        protocol: "https",
+        host: "api.github.com",
+        timeout: 5000
+    }));
+
+    github.authenticate(this.config.authentication);
+
+    var branches = yield github.repos.getBranches(this.config.repo);
+    var pullRequests = yield github.pullRequests.getAll(this.config.repo);
 
     var pullRequestMap = _.groupBy(pullRequests, pr=>pr.head.ref);
 
@@ -60,8 +52,4 @@ function *branches() {
         })
     };
 
-}
-
-function *capabilities() {
-    this.body = yield {entities: []};
 }
