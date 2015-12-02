@@ -34,7 +34,6 @@ app.listen(3334);
 
 
 function *branches() {
-    //yield github.repos.pullRequests
     var repo = {user: 'TargetProcess', repo: "buildboard2"};
 
     var branches = yield github.repos.getBranches(repo);

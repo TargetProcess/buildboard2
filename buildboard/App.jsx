@@ -1,3 +1,7 @@
+const List = Meteor.npmRequire('material-ui/lib/lists/list');
+const ListDivider = Meteor.npmRequire('material-ui/lib/lists/list-divider');
+const ListItem = Meteor.npmRequire('material-ui/lib/lists/list-item');
+
 App = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {
@@ -7,7 +11,18 @@ App = React.createClass({
         };
     },
 
+    renderItems(items){
+        return items.map(item=> {
+            return (<ListItem key={item._id}
+                              primaryText={item.branch.name}
+            />);
+        });
+    },
+
     render(){
-        return <div>{this.data.items.map(item=>{return <div key={item._id}>{JSON.stringify(item)}<br/></div>})}</div>;
+        return (<List>
+            {renderItems(this.data.items)}
+        </List>)
+
    }
 });
