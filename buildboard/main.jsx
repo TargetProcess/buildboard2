@@ -19,6 +19,7 @@ let mapItems = (bracnhes, tasks, builds) => {
     });
 };
 
+
 Router.route('/refresh', function () {
     var config = JSON.parse(Assets.getText("config.json"));
 
@@ -39,7 +40,7 @@ Router.route('/refresh', function () {
 
 Router.route('/', function () {
     Template.index.onRendered(function () {
-        React.render(<App />, document.getElementById("render-target"));
+        ReactDOM.render(<App />, document.getElementById("render-target"));
     });
     this.render('index');
 
