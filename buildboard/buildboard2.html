@@ -5,15 +5,21 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-<template name="index">
-    <div id="render-target"></div>
+<template name="ItemView">
+    <div id="item-view">fsaf</div>
 </template>
-
-<template name="page">
+<template name="ItemList">
+    <div id="render-target">
+    </div>
+</template>
+<template name="Layout">
 
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
         <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
             <div class="mdl-layout__header-row">
+                <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="/" title="go back" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+                    <i class="material-icons" role="presentation">arrow_back</i>
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple is-animating"></span></span></a>
                 <span class="mdl-layout-title">Home</span>
                 <div class="mdl-layout-spacer"></div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
@@ -67,7 +73,8 @@
             </nav>
         </div>
         <main class="mdl-layout__content mdl-color--grey-100">
-            <div class="mdl-grid demo-content" id="render-target">
+            <div class="mdl-grid demo-content">
+                {{> yield}}
             </div>
         </main>
     </div>

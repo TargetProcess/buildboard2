@@ -49,11 +49,19 @@ Router.route('/:account/refresh', function () {
         this.response.end(JSON.stringify({status: "404", message: `account "${this.params.account}" not found.`}));
     }
 }, {where: 'server'});
+Router.configure({
+    layoutTemplate: 'Layout'
+});
 
 Router.route('/', function () {
-    Template.page.onRendered(function () {
+    Template.ItemList.onRendered(function () {
         ReactDOM.render(<App />, document.getElementById("render-target"));
     });
-    this.render('page');
-
+    this.render('ItemList');
+});
+Router.route('/items/:id', function () {
+    Template.ItemView.onRendered(() => {
+        ReactDOM.render(<ItemView id={this.params.id} />, document.getElementById("item-view"));
+    });
+    this.render('ItemView');
 });

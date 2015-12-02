@@ -10,7 +10,7 @@ ItemList = React.createClass({
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.items.map((item, key)=>{return <Item key={key} {...item} />})}
+                    {this.props.items.map((item)=>{return <Item key={item._id} id={item._id} {...item} />})}
                     </tbody>
                 </table>
             );

@@ -2,7 +2,9 @@
 table {
     width:100%
 }
-
+#render-target {
+    width:100%
+}
 
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
