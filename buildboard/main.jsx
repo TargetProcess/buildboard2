@@ -2,6 +2,7 @@ account = "buildboard";
 
 Items = new Mongo.Collection(`${account}-items`);
 
+Accounts = new Mongo.Collection('accounts');
 
 let mapItems = (bracnhes, tasks, builds) => {
     let branchRegex = /feature\/(?:us|bug)(\d+)\w*/ig;
@@ -24,7 +25,7 @@ let mapItems = (bracnhes, tasks, builds) => {
 };
 
 if (Meteor.isServer) {
-    var accountConfig = JSON.parse(Assets.getText("config.json"));
+    // var accountConfig = JSON.parse(Assets.getText("config.json"));
 }
 
 Router.route('/:account/refresh', function () {
@@ -49,19 +50,39 @@ Router.route('/:account/refresh', function () {
         this.response.end(JSON.stringify({status: "404", message: `account "${this.params.account}" not found.`}));
     }
 }, {where: 'server'});
+
 Router.configure({
     layoutTemplate: 'Layout'
 });
 
 Router.route('/', function () {
-    Template.ItemList.onRendered(function () {
-        ReactDOM.render(<App />, document.getElementById("render-target"));
+    this.render('accountList', {
+        data: ()=> {
+            return {accounts: Accounts.find({})}
+        }
+    });
+});
+Router.route('/mock/', function () {
+    console.log('fsaf');
+    //Items.remove({});
+    //Accounts.remove({});
+    Accounts.insert(sampleAccount);
+    sampleData.forEach(i=>Items.insert(i));
+    this.render('accountList', {
+        data: ()=> {
+            return {accounts: Accounts.find({})}
+        }
+    });
+});
+Router.route('/:account/', function () {
+    Template.ItemList.onRendered( () => {
+        ReactDOM.render(<App account={this.params.account} />, document.getElementById("render-target"));
     });
     this.render('ItemList');
 });
-Router.route('/items/:id', function () {
+Router.route('/:account/items/:id', function () {
     Template.ItemView.onRendered(() => {
-        ReactDOM.render(<ItemView id={this.params.id} />, document.getElementById("item-view"));
+        ReactDOM.render(<ItemView id={this.params.id}/>, document.getElementById("item-view"));
     });
     this.render('ItemView');
 });

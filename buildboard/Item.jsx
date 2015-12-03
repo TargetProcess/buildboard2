@@ -4,7 +4,7 @@ Item = React.createClass({
             return object && object[prop] || '';
         },
         _redirect() {
-          Router.go('/items/' + this.props.id);
+            Router.go('/' + this.props.account + '/items/' + this.props.id);
         },
         render(){
             return (

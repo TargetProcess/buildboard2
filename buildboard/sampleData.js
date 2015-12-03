@@ -79,3 +79,7 @@ sampleData = [
         }
     }
 ];
+
+sampleAccount = {
+    id:'buildboard'
+};

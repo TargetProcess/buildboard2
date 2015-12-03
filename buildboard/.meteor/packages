@@ -21,8 +21,8 @@ react
 http
 ecmascript
 iron:router
-meteorhacks:npm
 mquandalle:bower
 
 
-npm-container
+
+
