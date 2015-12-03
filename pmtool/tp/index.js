@@ -5,20 +5,21 @@ var bootstrap = require('tool-bootstrap').bootstrap;
 bootstrap(
     {
         mongo: {
-            host: 'localhost',
-            port: 3001,
-            db: 'pmtool-tp'
+            url: 'mongodb://127.0.0.1:3001/pmtool-tp'
         },
         port: 3333
 
     },
     ({router})=> {
-        router.get('/:account/tasks', tasks);
+
+        router.get('/tasks', tasks());
     });
 
 var TP = require('./targetprocess.js');
 
-function *tasks() {
-    var tp = new TP(this.config);
-    this.body = {tasks: yield tp.getAssignables()};
+function tasks() {
+    return function *() {
+        var tp = new TP(this.passport.user.config);
+        this.body = {tasks: yield tp.getAssignables()};
+    }
 }

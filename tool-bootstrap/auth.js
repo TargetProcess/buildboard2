@@ -1,0 +1,43 @@
+var passport = require('koa-passport');
+
+passport.serializeUser((user, done)=>done(null, user));
+passport.deserializeUser((user, done)=>done(null, user));
+
+var MongoClient = require('mongodb').MongoClient;
+
+var TokenStrategy = require('passport-auth-token').Strategy;
+
+
+module.exports = (url)=> {
+    passport.use(new TokenStrategy(
+        function (token, done) {
+
+            MongoClient.connect(url, function (err, db) {
+                if (err) {
+                    done(err)
+                } else {
+                    db
+                        .collection('accounts')
+                        .find({token: {$eq: token}})
+                        .limit(1)
+                        .next(function (err, doc) {
+                            db.close();
+                            if (err) {
+                                done(err);
+                            } else {
+                                if (doc) {
+                                    done(null, doc, {scope: 'all'});
+                                } else {
+                                    done(null, false);
+                                }
+                            }
+                        });
+                }
+            });
+
+        }
+    ));
+
+};
+
+

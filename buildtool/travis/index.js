@@ -15,16 +15,14 @@ var bootstrap = require('tool-bootstrap').bootstrap;
 bootstrap(
     {
         mongo: {
-            host: 'localhost',
-            port: 3001,
-            db: 'buildtool-travis'
+            url: 'mongodb://127.0.0.1:3001/buildtool-travis'
         },
         port: 3335
 
     },
     ({router})=> {
         router
-            .get('/:account/builds', builds);
+            .get('/builds', builds);
     }
 );
 
@@ -32,7 +30,7 @@ bootstrap(
 var getBuilds = genify(({user,repo}, callback)=>travis.repos(user, repo).builds.get(callback));
 
 function *builds() {
-    var {builds, commits} = yield getBuilds(this.config);
+    var {builds, commits} = yield getBuilds(this.passport.user.config);
     let commitMap = _.indexBy(commits, 'id');
     this.body = {
         builds: _.map(builds, b=> {

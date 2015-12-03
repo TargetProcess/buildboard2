@@ -9,16 +9,14 @@ var bootstrap = require('tool-bootstrap').bootstrap;
 bootstrap(
     {
         mongo: {
-            host: 'localhost',
-            port: 3001,
-            db: 'codetool-github'
+            url: 'mongodb://127.0.0.1:3001/codetool-github'
         },
         port: 3334
 
     },
 
     ({router})=> {
-        router.get('/:account/branches', branches);
+        router.get('/branches', branches);
     });
 
 
@@ -32,10 +30,11 @@ function *branches() {
         timeout: 5000
     }));
 
-    github.authenticate(this.config.authentication);
+    var config = this.passport.user.config;
+    github.authenticate(config.authentication);
 
-    var branches = yield github.repos.getBranches(this.config.repo);
-    var pullRequests = yield github.pullRequests.getAll(this.config.repo);
+    var branches = yield github.repos.getBranches(config.repo);
+    var pullRequests = yield github.pullRequests.getAll(config.repo);
 
     var pullRequestMap = _.groupBy(pullRequests, pr=>pr.head.ref);
 
