@@ -1,18 +1,30 @@
 Accounts = new Mongo.Collection('accounts');
+Items = new Mongo.Collection('items');
 
+if (Meteor.isServer) {
 
-account = "buildboard";
-Items = new Mongo.Collection(`${account}-items`);
+    Meteor.publish("items", function (account, id) {
 
+        if (id) {
+            return Items.find({account: account, _id: id});
+        } else {
+            return Items.find({account: account});
+        }
+    });
 
-mapItems = (bracnhes, tasks, builds) => {
+    Meteor.publish('accounts', function () {
+        return Accounts.find();
+    })
+}
+
+mapItems = (bracnhes, tasks, builds, account) => {
     let branchRegex = /feature\/(?:us|bug)(\d+)\w*/ig;
     let taskMap = _.indexBy(tasks, 'pmId');
     let buildMap = _.indexBy(builds, 'sha');
 
     return _.map(bracnhes, branch => {
         let [,id] = branchRegex.exec(branch.name) || [];
-        var item = {branch, task: taskMap[id]};
+        var item = {account, branch, task: taskMap[id]};
 
         var branchBuild = buildMap[branch.sha];
         branch.builds = _.compact([branchBuild]);
