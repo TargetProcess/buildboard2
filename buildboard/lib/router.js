@@ -34,8 +34,8 @@ Router.route('/', function () {
 Router.route('/mock/', function () {
     //Items.remove({});
     //Accounts.remove({});
-    Accounts.insert(sampleAccount);
-    sampleData.forEach(i=>Items.insert(i));
+    //Accounts.insert(sampleAccount);
+    // sampleData.forEach(i=>Items.insert(i));
     this.render('accountList', {
         data: ()=> {
             return {accounts: Accounts.find({})}

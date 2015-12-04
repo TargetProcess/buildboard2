@@ -12,14 +12,13 @@ bootstrap(
     },
     ({router})=> {
 
-        router.get('/tasks', tasks());
+        router.get('/tasks', tasks);
     });
 
 var TP = require('./targetprocess.js');
 
-function tasks() {
-    return function *() {
-        var tp = new TP(this.passport.user.config);
-        this.body = {tasks: yield tp.getAssignables()};
-    }
+function *tasks() {
+    var tp = new TP(this.passport.user.config);
+    this.body = {tasks: yield tp.getAssignables(this.request.query)};
+
 }

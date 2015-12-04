@@ -20,10 +20,7 @@ bootstrap(
         port: 3335
 
     },
-    ({router})=> {
-        router
-            .get('/builds', builds);
-    }
+    ({router})=>router.get('/builds', builds)
 );
 
 

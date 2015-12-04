@@ -25,9 +25,7 @@ sampleData = [
                     "id": 1,
                     "status": "open",
                     "sha": "525942c3e94ddf80a41a6af097fda47473e75cc4",
-                    "builds": [
-
-                    ]
+                    "builds": []
                 }
             ],
             "builds": [
@@ -57,12 +55,8 @@ sampleData = [
             "branchId": "feature/us3_test",
             "name": "feature/us3_test",
             "sha": "a5a5a60955b885714db30374645c2dfede9d1e88",
-            "pullRequests": [
-
-            ],
-            "builds": [
-
-            ]
+            "pullRequests": [],
+            "builds": []
         }
     },
     {
@@ -70,16 +64,29 @@ sampleData = [
             "branchId": "master",
             "name": "master",
             "sha": "4f6ee3fef8e3faa906b42c87a7de8fcdd94d7d5e",
-            "pullRequests": [
-
-            ],
-            "builds": [
-
-            ]
+            "pullRequests": [],
+            "builds": []
         }
     }
 ];
 
 sampleAccount = {
-    id:'buildboard'
+    id: 'buildboard',
+    token: 'buildboardtoken',
+    tools: {
+        "pm": {
+            url: "http://localhost:3333"
+        },
+        code: {
+            url: "http://localhost:3334"
+        },
+        "build": {
+            url: "http://localhost:3335"
+        }
+    },
+    users: [],
+    mappings: {
+        items: [],
+        users: []
+    }
 };
