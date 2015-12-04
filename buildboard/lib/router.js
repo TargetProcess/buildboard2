@@ -1,3 +1,22 @@
+Router.onBeforeAction(function () {
+    if (!Meteor.user() && !Meteor.loggingIn()) {
+        this.redirect('/login');
+    } else {
+        // required by Iron to process the route handler
+        this.next();
+    }
+}, {
+    except: ['login']
+});
+
+Router.route('/login', function () {
+    if (Meteor.user()) {
+        this.redirect('/');
+    }
+    this.layout('login');
+    this.render('loginButtons');
+});
+
 Router.configure({
     layoutTemplate: 'layout'
 });
@@ -55,3 +74,5 @@ Router.route('/:account/items/:id', function () {
         data: ()=> Items.findOne(this.params.id)
     });
 });
+
+
