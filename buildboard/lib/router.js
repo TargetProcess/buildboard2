@@ -21,11 +21,11 @@ Router.configure({
     layoutTemplate: 'layout'
 });
 Router.route('/:account/refresh', function () {
-    var config = accountConfig.accounts[this.params.account];
+    var config = Accounts.findOne({id: {$eq: this.params.account}});
     if (config) {
-        var pmTool = new PMTool(this.params.account, config.pmTool);
-        var codeTool = new CodeTool(this.params.account, config.codeTool);
-        var buildTool = new BuildTool(this.params.account, config.buildTool);
+        var pmTool = new PMTool(config.token, config.tools.pm);
+        var codeTool = new CodeTool(config.token, config.tools.code);
+        var buildTool = new BuildTool(config.token, config.tools.build);
 
         var tasks = pmTool.getTasks();
         var branches = codeTool.getBranches();

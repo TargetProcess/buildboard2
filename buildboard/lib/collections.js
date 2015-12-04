@@ -1,8 +1,9 @@
-account = "buildboard";
+Accounts = new Mongo.Collection('accounts');
 
+
+account = "buildboard";
 Items = new Mongo.Collection(`${account}-items`);
 
-Accounts = new Mongo.Collection('accounts');
 
 mapItems = (bracnhes, tasks, builds) => {
     let branchRegex = /feature\/(?:us|bug)(\d+)\w*/ig;
@@ -23,8 +24,4 @@ mapItems = (bracnhes, tasks, builds) => {
         return item;
     });
 };
-
-if (Meteor.isServer) {
-    accountConfig = JSON.parse(Assets.getText("config.json"));
-}
 

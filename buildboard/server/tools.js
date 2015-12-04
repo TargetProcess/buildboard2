@@ -1,11 +1,13 @@
 class ToolBase {
-    constructor(account, config) {
+    constructor(accountToken, config) {
         this._url = config.url;
-        this._account = account;
+        this._accountToken = accountToken;
     }
 
     _get(resource) {
-        return HTTP.get(this._url + `${this._account}/${resource}`).data[resource];
+        var url = this._url + `/${resource}?token=${this._accountToken}`;
+        console.log(url);
+        return HTTP.get(url).data[resource];
     }
 }
 
