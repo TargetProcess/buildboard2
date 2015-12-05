@@ -59,27 +59,25 @@ Router.route('/', function () {
     });
 });
 /*
-Router.route('/mock/', function () {
-    //Items.remove({});
-    //Accounts.remove({});
-    //Accounts.insert(sampleAccount);
-    // sampleData.forEach(i=>Items.insert(i));
-    this.render('accountList', {
-        data: ()=> {
-            return {accounts: Accounts.find({})}
-        }
-    });
+ Router.route('/mock/', function () {
+ //Items.remove({});
+ //Accounts.remove({});
+ //Accounts.insert(sampleAccount);
+ // sampleData.forEach(i=>Items.insert(i));
+ this.render('accountList', {
+ data: ()=> {
+ return {accounts: Accounts.find({})}
+ }
+ });
  },{where:'server'});
 
  */
 Router.route('/:account',
     {
-
-
         loadingTemplate: 'loading',
 
         waitOn: function () {
-            return Meteor.subscribe("items", this.params.account)
+            return Meteor.subscribe('items', this.params.account, this.params.query.skip, this.params.query.limit)
         },
 
         action: function () {
@@ -93,14 +91,18 @@ Router.route('/:account',
     }
 );
 
-Router.route('/:account/items/:id', function () {
+Router.route('/:account/items/:id',
+    {
+        loadingTemplate: 'loading',
+        waitOn: function () {
+            return Meteor.subscribe('item', this.params.account, this.params.id);
 
-    Meteor.subscribe('items', this.params.account, this.params.id);
-
-
-    this.render('ItemView', {
-        data: ()=> Items.findOne(this.params.id)
+        },
+        action: function () {
+            this.render('ItemView', {
+                data: ()=> Items.findOne(this.params.id)
+            });
+        }
     });
-});
 
 
