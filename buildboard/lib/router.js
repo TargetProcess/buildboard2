@@ -1,13 +1,13 @@
-//Router.onBeforeAction(function () {
-//    if (!Meteor.user() && !Meteor.loggingIn()) {
-//        this.redirect('/login');
-//    } else {
-//        // required by Iron to process the route handler
-//        this.next();
-//    }
-//}, {
-//    except: ['login']
-//});
+Router.onBeforeAction(function () {
+    if (!Meteor.user() && !Meteor.loggingIn()) {
+        this.redirect('/login');
+    } else {
+        // required by Iron to process the route handler
+        this.next();
+    }
+}, {
+    except: ['login']
+});
 
 
 Router.route('/login', function () {
@@ -15,7 +15,7 @@ Router.route('/login', function () {
         this.redirect('/');
     }
     this.layout('login');
-    this.render('loginButtons');
+    this.render('loginForm');
 });
 
 Router.configure({
@@ -58,20 +58,7 @@ Router.route('/', function () {
         }
     });
 });
-/*
- Router.route('/mock/', function () {
- //Items.remove({});
- //Accounts.remove({});
- //Accounts.insert(sampleAccount);
- // sampleData.forEach(i=>Items.insert(i));
- this.render('accountList', {
- data: ()=> {
- return {accounts: Accounts.find({})}
- }
- });
- },{where:'server'});
 
- */
 Router.route('/:account',
     {
         loadingTemplate: 'loading',
