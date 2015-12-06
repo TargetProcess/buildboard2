@@ -33,7 +33,7 @@ function *builds() {
         builds: _.map(builds, b=> {
             var commit = commitMap[b.commit_id];
             return {
-                buildId: b.id,
+                id: b.id,
                 started: b.started_at,
                 finished: b.finished_at,
                 duration: b.duration,

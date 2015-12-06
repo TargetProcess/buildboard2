@@ -20,6 +20,25 @@ bootstrap(
     });
 
 
+function *getAll(obj, call) {
+    console.log(obj);
+    let config = _.clone(obj);
+    config.page = 0;
+    config.per_page = 100;
+    let result = [];
+    while (config) {
+        let page = yield call(config);
+        let meta = page.meta;
+        if (meta && meta.link && meta.link.indexOf('rel="next"') >= 0) {
+            config.page++;
+        }
+        else {
+            config = null;
+        }
+        result = result.concat(page);
+    }
+    return result;
+}
 function *branches() {
 
     var github = wrapper(new Github({
@@ -33,8 +52,8 @@ function *branches() {
     var config = this.passport.user.config;
     github.authenticate(config.authentication);
 
-    var branches = yield github.repos.getBranches(config.repo);
-    var pullRequests = yield github.pullRequests.getAll(config.repo);
+    let branches = yield getAll(config.repo, github.repos.getBranches);
+    let pullRequests = yield getAll(config.repo, github.pullRequests.getAll);
 
     var pullRequestMap = _.groupBy(pullRequests, pr=>pr.head.ref);
 
@@ -43,7 +62,7 @@ function *branches() {
             let pullRequestsForBranch = pullRequestMap[b.name] || [];
 
             return {
-                branchId: b.name,
+                id: b.name,
                 name: b.name,
                 sha: b.commit.sha,
                 pullRequests: _.map(pullRequestsForBranch, pr=> {

@@ -36,6 +36,8 @@ Router.route('/:account/refresh',
             var buildTool = new BuildTool(config.token, config.tools.build);
 
             var tasks = pmTool.getTasks();
+
+
             var branches = codeTool.getBranches();
             var builds = buildTool.getBuilds();
             var items = mapItems(branches, tasks, builds, account);

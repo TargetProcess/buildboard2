@@ -1,13 +1,26 @@
 class ToolBase {
     constructor(accountToken, config) {
-        this._url = config.url;
-        this._accountToken = accountToken;
+        if (config) {
+            this._url = config.url;
+            this._accountToken = accountToken;
+        }
     }
 
     _get(resource) {
-        var url = this._url + `/${resource}?token=${this._accountToken}`;
-        console.log(url);
-        return HTTP.get(url).data[resource];
+        if (this._url) {
+            var url = this._url + `/${resource}?token=${this._accountToken}&take=1000`;
+
+            var result = [];
+            while (url) {
+                var items = HTTP.get(url).data;
+                result = result.concat(items[resource]);
+                url = items.next;
+            }
+            return result;
+        }
+        else {
+            return [];
+        }
     }
 }
 

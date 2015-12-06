@@ -41,7 +41,7 @@ sampleData = [
             ]
         },
         "task": {
-            "pmId": 2,
+            "id": 2,
             "type": "UserStory",
             "name": "Get data from TP",
             "state": {
