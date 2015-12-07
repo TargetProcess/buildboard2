@@ -12,11 +12,17 @@ Template.layout.helpers({
             return user.emails[0].address;
 
         return '';
+    },
+    showArrowBack() {
+        return Router.current().route.getName()
     }
 });
 
 Template.layout.events({
     'click .js-logout'() {
         Meteor.logout();
+    },
+    'click .js-arrow-back'() {
+        history.back();
     }
 });

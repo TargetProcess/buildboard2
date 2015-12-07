@@ -2,7 +2,6 @@ Router.onBeforeAction(function () {
     if (!Meteor.user() && !Meteor.loggingIn()) {
         this.redirect('/login');
     } else {
-        // required by Iron to process the route handler
         this.next();
     }
 }, {
@@ -63,17 +62,12 @@ Router.route('/', function () {
 
 Router.route('/:account',
     {
-        loadingTemplate: 'loading',
-
-        waitOn: function () {
-            return Meteor.subscribe('items', this.params.account, this.params.query.skip, this.params.query.limit)
-        },
-
         action: function () {
+            var handle = Meteor.subscribeWithPagination('items', this.params.account, 20);
             this.render('itemList', {
                 data: ()=> ({
                     account: this.params.account,
-                    items: Items.find({})
+                    handle: handle
                 })
             });
         }

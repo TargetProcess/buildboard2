@@ -3,8 +3,7 @@ Items = new Mongo.Collection('items');
 
 if (Meteor.isServer) {
 
-    Meteor.publish("items", function (account, skip, limit) {
-        console.log(arguments);
+    Meteor.publish("items", function (account, limit, skip) {
         return Items.find({account: account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
     });
 
