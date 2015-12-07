@@ -1,27 +1,10 @@
 Template.layout.helpers({
-    userName(){
-        var user = Meteor.user();
-        if (!user)
-            return '';
-
-        if (user.profile && user.profile.name)
-            return user.profile.name;
-        if (user.username)
-            return user.username;
-        if (user.emails && user.emails[0] && user.emails[0].address)
-            return user.emails[0].address;
-
-        return '';
-    },
     showArrowBack() {
-        return Router.current().route.getName()
+        return false;// Router.current().route.getName()
     }
 });
 
 Template.layout.events({
-    'click .js-logout'() {
-        Meteor.logout();
-    },
     'click .js-arrow-back'() {
         history.back();
     }

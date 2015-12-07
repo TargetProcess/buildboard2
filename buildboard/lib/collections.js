@@ -1,12 +1,22 @@
 Accounts = new Mongo.Collection('accounts');
 Items = new Mongo.Collection('items');
 
+currentAccountName = ()=> {
+    return Router.current().params.account;
+};
 if (Meteor.isServer) {
 
     Meteor.publish("items", function (account, limit, skip) {
         return Items.find({account: account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
     });
-
+    Meteor.publish("userData", function () {
+        if (this.userId) {
+            return Meteor.users.find({_id: this.userId},
+                {fields: {'services': 1}});
+        } else {
+            this.ready();
+        }
+    });
 
     Meteor.publish('item', function (account, id) {
 
@@ -16,6 +26,9 @@ if (Meteor.isServer) {
     Meteor.publish('accounts', function () {
         return Accounts.find();
     })
+}
+if(Meteor.isClient) {
+    Meteor.subscribe("userData");
 }
 
 function getTaskIdFromBranch(branch) {

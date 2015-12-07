@@ -52,17 +52,29 @@ Router.route('/:account/refresh',
         }
     }, {where: 'server'});
 
-Router.route('/', function () {
-    this.render('accountList', {
-        data: ()=> {
-            return {accounts: Accounts.find({})}
+Router.route('/', {
+    loadingTemplate: 'loading',
+    waitOn() {
+        return Meteor.subscribe('accounts');
+    },
+    action() {
+        if (Accounts.find().count()) {
+            Router.go('/' + Accounts.findOne({}).id);
+        } else {
+            Router.go('/createAccount');
         }
-    });
+    }
+});
+Router.route('/createAccount', {
+    loadingTemplate: 'loading',
+    action() {
+        this.render('createAccount');
+    }
 });
 
 Router.route('/:account',
     {
-        action: function () {
+        action() {
             var handle = Meteor.subscribeWithPagination('items', this.params.account, 20);
             this.render('itemList', {
                 data: ()=> ({
