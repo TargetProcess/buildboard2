@@ -2,3 +2,5 @@ buildboard/.meteor/local
 buildboard/.meteor/meteorite
 .idea/
 node_modules/
+buildboard/public/components
+config.json
