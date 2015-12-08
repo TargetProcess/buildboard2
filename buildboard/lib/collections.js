@@ -1,4 +1,4 @@
-Accounts = new Mongo.Collection('accounts');
+BuildBoardAccounts = new Mongo.Collection('accounts');
 Items = new Mongo.Collection('items');
 
 currentAccountName = ()=> {
@@ -24,7 +24,7 @@ if (Meteor.isServer) {
     });
 
     Meteor.publish('accounts', function () {
-        return Accounts.find();
+        return BuildBoardAccounts.find();
     })
 }
 if(Meteor.isClient) {
