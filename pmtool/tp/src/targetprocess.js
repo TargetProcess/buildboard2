@@ -92,6 +92,9 @@ class Targetprocess {
 
         var where = this.buildWhere(query);
 
+        let take = parseInt(query.per_page) || 100;
+        let skip = take * (parseInt(query.page) - 1) || 0;
+
 
         return yield this._request('assignable', {
                 'id': 'id',
@@ -106,7 +109,7 @@ class Targetprocess {
                 lastModified: 'ModifyDate.Value.ToString("o")'
             },
             where,
-            query.skip, query.take);
+            skip, take);
 
     }
 }

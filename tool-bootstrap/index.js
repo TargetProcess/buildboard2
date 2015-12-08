@@ -1,9 +1,9 @@
 var Koa = require('koa');
 var app = new Koa();
-
+var url = require('url');
 
 module.exports = {
-    bootstrap({ port, mongo }, callback)
+    bootstrap({ port, mongo }, securedRouter, capabilities)
     {
         // body parser
         const bodyParser = require('koa-bodyparser');
@@ -23,6 +23,12 @@ module.exports = {
 
         var Router = require('koa-router');
 
+        var unsecuredRouter = new Router();
+        unsecuredRouter.get('/', function () {
+            this.body = capabilities;
+        });
+        app
+            .use(unsecuredRouter.routes());
 
         app.use(function*(next) {
 
@@ -51,7 +57,7 @@ module.exports = {
         });
 
         var router = new Router();
-        callback({
+        securedRouter({
             router
         });
 
@@ -61,5 +67,9 @@ module.exports = {
 
         app.listen(port);
 
+    },
+    getUrl(ctx){
+        var request = ctx.request;
+        return url.parse(request.protocol + '://' + request.host + request.originalUrl, true);
     }
 };
