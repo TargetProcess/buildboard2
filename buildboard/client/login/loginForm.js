@@ -1,14 +1,24 @@
 Template.loginForm.events({
-   'click .js-github'(e) {
-       e.preventDefault();
-       Meteor.loginWithGithub({
-        //   requestPermissions: ['user', 'email']
-       },function(){
+    'click .js-github'() {
+        Meteor.loginWithGithub({
+            //   requestPermissions: ['user', 'email']
+        }, function () {
 
-       });
-   },
-    'submit form'(e) {
+        });
+    },
+    'submit form'(e, t) {
         e.preventDefault();
-        alert('not implemented');
+
+        var email = t.find('#login-email').value;
+        var password = t.find('#login-password').value;
+
+        Meteor.loginWithPassword(email, password, function (err) {
+            if (err) {
+                alert(JSON.stringify(err));
+            } else {
+                Router.go('/');
+            }
+        });
+        return false;
     }
 });

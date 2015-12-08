@@ -14,8 +14,13 @@ Template.user.helpers({
         return '';
     },
     avatarURL() {
-        if(Meteor.user() && Meteor.user().services && Meteor.user().services.github){
+        if (Meteor.user() && Meteor.user().services && Meteor.user().services.github) {
             return Gravatar.imageUrl(Meteor.user().services.github.email, {
+                size: 126,
+                default: 'mm'
+            });
+        } else if (Meteor.user() && Meteor.user().emails) {
+            return Gravatar.imageUrl(Meteor.user().emails[0].address, {
                 size: 126,
                 default: 'mm'
             });

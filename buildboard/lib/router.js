@@ -5,9 +5,16 @@ Router.onBeforeAction(function () {
         this.next();
     }
 }, {
-    except: ['login']
+    except: ['login', 'register']
 });
 
+Router.route('/register', function () {
+    if (Meteor.user()) {
+        this.redirect('/');
+    }
+    this.layout('login');
+    this.render('registerForm');
+});
 
 Router.route('/login', function () {
     if (Meteor.user()) {
@@ -28,7 +35,7 @@ Router.route('/:account/refresh',
 
     function () {
         var account = this.params.account;
-        var config = Accounts.findOne({id: {$eq: account}});
+        var config = BuildBoardAccounts.findOne({id: {$eq: account}});
         if (config) {
             var pmTool = new PMTool(config.token, config.tools.pm);
             var codeTool = new CodeTool(config.token, config.tools.code);
@@ -58,8 +65,8 @@ Router.route('/', {
         return Meteor.subscribe('accounts');
     },
     action() {
-        if (Accounts.find().count()) {
-            Router.go('/' + Accounts.findOne({}).id);
+        if (BuildBoardAccounts.find().count()) {
+            Router.go('/' + BuildBoardAccounts.findOne({}).id);
         } else {
             Router.go('/createAccount');
         }

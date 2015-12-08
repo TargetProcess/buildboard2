@@ -1,6 +1,6 @@
 Template.accountList.helpers({
     accounts() {
-        return Accounts.find({});
+        return BuildBoardAccounts.find({});
     }
 });
 
