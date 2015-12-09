@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "description": "buildboard set",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "ps-node": "0.0.5"
+  },
   "devDependencies": {
     "tape": "^4.2.2"
   },
   "scripts": {
+    "start": "node apps.js",
     "test": "tape test/test.js"
   },
   "repository": {
