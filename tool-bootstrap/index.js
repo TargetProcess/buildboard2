@@ -10,7 +10,9 @@ module.exports = {
         app.use(bodyParser());
 
         var auth = require('./auth');
-        auth(mongo.url);
+
+        const mongoUrl = mongo.url || `mongodb://${mongo.host || '127.0.0.1'}:${mongo.port || 27017}/${mongo.db}`;
+        auth(mongoUrl);
 
         const passport = require('koa-passport');
         app.use(passport.initialize());

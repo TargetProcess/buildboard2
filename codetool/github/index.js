@@ -9,9 +9,10 @@ var bootstrap = require('tool-bootstrap').bootstrap;
 bootstrap(
     {
         mongo: {
-            url: 'mongodb://127.0.0.1:3001/codetool-github'
+            port: process.env.MONGO_PORT || 3001,
+            db: 'codetool-github'
         },
-        port: 3334
+        port: process.env.GITHUB_PORT || 3334
 
     },
 

@@ -2,10 +2,7 @@
   "name": "buildboard2",
   "version": "0.0.1",
   "description": "buildboard set",
-  "main": "index.js",
-  "dependencies": {
-    "ps-node": "0.0.5"
-  },
+  "main": "apps.js",
   "devDependencies": {
     "tape": "^4.2.2"
   },

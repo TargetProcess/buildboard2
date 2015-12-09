@@ -6,9 +6,10 @@ var url = require('url');
 tool.bootstrap(
     {
         mongo: {
-            url: 'mongodb://127.0.0.1:3001/pmtool-tp'
+            port: process.env.MONGO_PORT || 3001,
+            db: 'pmtool-tp'
         },
-        port: 3333
+        port: process.env.TP_PORT || 3333
 
     },
     ({router})=> {
