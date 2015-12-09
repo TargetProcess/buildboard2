@@ -4,3 +4,4 @@ export TP_PORT=3333
 export GITHUB_PORT=3334
 export TRAVIS_PORT=3335
 npm start
+pm2 list
