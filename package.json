@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/TargetProcess/buildboard2/issues"
   },
-  "homepage": "https://github.com/TargetProcess/buildboard2#readme"
+  "homepage": "https://github.com/TargetProcess/buildboard2#readme",
+  "dependencies": {
+    "lodash": "^3.10.1"
+  }
 }

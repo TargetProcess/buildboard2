@@ -3,7 +3,7 @@ var app = new Koa();
 var url = require('url');
 
 module.exports = {
-    bootstrap({ port, mongo }, securedRouter, capabilities)
+    bootstrap({ port, mongo, capabilities, settings }, securedRouter)
     {
         // body parser
         const bodyParser = require('koa-bodyparser');
@@ -29,6 +29,11 @@ module.exports = {
         unsecuredRouter.get('/', function () {
             this.body = capabilities;
         });
+        unsecuredRouter.get('/settings', function () {
+            this.body = settings
+        });
+
+
         app
             .use(unsecuredRouter.routes());
 

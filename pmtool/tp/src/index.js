@@ -5,19 +5,38 @@ var url = require('url');
 
 tool.bootstrap(
     {
+        secret: process.env.SECRET_KEY,
         mongo: {
             port: process.env.MONGO_PORT || 3001,
             db: 'pmtool-tp'
         },
-        port: process.env.TP_PORT || 3333
+        port: process.env.PORT || 3333,
 
+        settings: {
+            url: {
+                caption: 'Targetprocess URL',
+                type: 'uri'
+            },
+            token: {
+                caption: 'Targetprocess authentication token',
+                type: 'string'
+            },
+            projects: {
+                caption: 'Ids or names of projects to be monitored',
+                type: 'list',
+                optional: true
+            },
+            types: {
+                caption: 'Ids or names of entity types to be monitored',
+                type: 'multiple selection',
+                optional: true,
+                values: ['UserStory', 'Bug', 'Feature', 'Epic'],
+                defaultValue: ['UserStory', 'Bug']
+            }
+        }
     },
     ({router})=> {
         router.get('/tasks', tasks);
-    }, {
-        branches: {
-            get: ['take', 'skip']
-        }
     });
 
 var TP = require('./targetprocess.js');
