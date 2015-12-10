@@ -18,7 +18,7 @@ npm link tool-bootstrap
 env PORT=3334 npm start
 cd ../..
 
-pushd buildtool/travis
+cd buildtool/travis
 npm install
 npm link tool-bootstrap
 env PORT=3335 npm start
