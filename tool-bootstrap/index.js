@@ -26,11 +26,10 @@ module.exports = {
 
         var logger = require('koa-logger');
         var json = require('koa-json');
-        // var body = require('koa-parse-json');
 
         app.use(json());
         app.use(logger());
-        //app.use(body());
+
 
         var Router = require('koa-router');
 
@@ -91,7 +90,7 @@ module.exports = {
                 else {
                     var account = {
                         name: this.request.body.name,
-                        token: this.request.body.account,
+                        token: this.request.body.accountToken,
                         config: accountConfig
                     };
                     this.mongo.db(mongo.db)
