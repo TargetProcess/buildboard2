@@ -12,17 +12,30 @@ bootstrap(
             port: process.env.MONGO_PORT || 3001,
             db: 'codetool-github'
         },
-        port: process.env.GITHUB_PORT || 3334
-
-    },
-
-    ({router})=> {
-        router.get('/branches', branches);
-    });
+        port: process.env.GITHUB_PORT || 3334,
+        settings: {
+            repository: {
+                caption: 'Github user/repository',
+                type: 'string'
+            },
+            authentication: {
+                caption: 'Github token',
+                description: 'Generated via https://github.com/settings/tokens',
+                type: 'string'
+            }
+        },
+        methods: {
+            '/branches': {
+                'get': {
+                    action: branches
+                }
+            }
+        }
+    }
+);
 
 
 function *getAll(obj, call) {
-    console.log(obj);
     let config = _.clone(obj);
     config.page = 0;
     config.per_page = 100;
@@ -51,10 +64,11 @@ function *branches() {
     }));
 
     var config = this.passport.user.config;
-    github.authenticate(config.authentication);
+    github.authenticate({type: 'oauth', token: config.token});
 
-    let branches = yield getAll(config.repo, github.repos.getBranches);
-    let pullRequests = yield getAll(config.repo, github.pullRequests.getAll);
+    var repo = {user: config.user, repo: config.repo};
+    let branches = yield getAll(repo, github.repos.getBranches);
+    let pullRequests = yield getAll(repo, github.pullRequests.getAll);
 
     var pullRequestMap = _.groupBy(pullRequests, pr=>pr.head.ref);
 

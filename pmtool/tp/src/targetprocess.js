@@ -9,9 +9,9 @@ class Targetprocess {
     constructor(config) {
         this._config = config;
 
-        var {token, account} = config;
+        var {token, url} = config;
         this._token = token;
-        this._root = `https://${account}.tpondemand.com/api/v2`;
+        this._root = `${url}/api/v2`;
     }
 
     stringifySelect(select) {

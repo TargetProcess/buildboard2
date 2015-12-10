@@ -18,10 +18,25 @@ bootstrap(
             port: process.env.MONGO_PORT || 3001,
             db: 'buildtool-travis'
         },
-        port: process.env.TRAVIS_PORT || 3335
-
-    },
-    ({router})=>router.get('/builds', builds)
+        port: process.env.TRAVIS_PORT || 3335,
+        settings: {
+            'user': {
+                caption: 'Github user',
+                type: 'string'
+            },
+            'repo': {
+                caption: 'Github repo',
+                type: 'string'
+            }
+        },
+        methods: {
+            '/builds': {
+                get: {
+                    action: builds
+                }
+            }
+        }
+    }
 );
 
 

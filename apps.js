@@ -12,7 +12,8 @@
         console.log(`Starting ${key}`);
         execSync("npm install", {cwd: key});
         execSync("npm link tool-bootstrap");
-        execSync("npm start", {cwd: key, environment: env});
+
+        execSync("npm start", {cwd: key, env: env});
     });
 
     console.log(execSync('pm2 list').toString('utf8'));

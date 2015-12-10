@@ -33,11 +33,17 @@ tool.bootstrap(
                 values: ['UserStory', 'Bug', 'Feature', 'Epic'],
                 defaultValue: ['UserStory', 'Bug']
             }
+        },
+
+        methods: {
+            '/tasks': {
+                get: {
+                    action: tasks
+                }
+            }
         }
-    },
-    ({router})=> {
-        router.get('/tasks', tasks);
-    });
+    }
+);
 
 var TP = require('./targetprocess.js');
 
@@ -48,7 +54,7 @@ function *tasks() {
     var tp = new TP(this.passport.user.config);
     this.body = yield tp.getAssignables(this.request.query);
     if (this.body.next) {
-        fullUrl.query.page = parseInt(fullUrl.query.page) + 1;
+        fullUrl.query.page = (parseInt(fullUrl.query.page) || 1) + 1;
         fullUrl.search = undefined;
         this.body.next = url.format(fullUrl);
     }
