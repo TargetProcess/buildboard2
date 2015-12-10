@@ -93,6 +93,22 @@ Router.route('/:account',
     }
 );
 
+Router.route('/:account/edit',
+    {
+        loadingTemplate: 'loading',
+        waitOn: function () {
+            return Meteor.subscribe('accounts');
+
+        },
+        action() {
+
+            this.render('editAccount', {
+                data: ()=> BuildBoardAccounts.findOne({id:this.params.account})
+            });
+        }
+    }
+);
+
 Router.route('/:account/items/:id',
     {
         loadingTemplate: 'loading',

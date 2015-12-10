@@ -1,0 +1,29 @@
+<template name="toolSettings">
+    <div>
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">{{name}}</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <div>
+                <label for="{{type}}">Choose project tool</label>
+                <select class="js-tool" name="tool" id="{{type}}">
+                    {{#each tools}}
+                        <option>None</option>
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            {{#each fields}}
+                <div>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <input autocomplete="off" class="mdl-textfield__input {{jsClass ..}}" type="text"/>
+                        <label class="mdl-textfield__label">{{caption}}</label>
+                    </div>
+                </div>
+            {{/each}}
+
+
+        </div>
+    </div>
+</template>

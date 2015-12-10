@@ -1,6 +1,6 @@
 Meteor.startup(()=>{
     if (Meteor.isServer) {
-        var accountConfig = JSON.parse(Assets.getText("config.json"));
+        var accountConfig = Meteor.settings;
         ServiceConfiguration.configurations.upsert(
             { service: "github" },
             {
