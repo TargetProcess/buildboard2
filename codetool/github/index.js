@@ -14,8 +14,12 @@ bootstrap(
         },
         port: process.env.GITHUB_PORT || 3334,
         settings: {
-            repository: {
-                caption: 'Github user/repository',
+            user: {
+                caption: 'Github user',
+                type: 'string'
+            },
+            repo: {
+                caption: 'Github repo',
                 type: 'string'
             },
             authentication: {
