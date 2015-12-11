@@ -11,6 +11,7 @@ var TokenStrategy = require('passport-auth-token').Strategy;
 module.exports = (url)=> {
     passport.use(new TokenStrategy(
         function (token, done) {
+            console.log(token);
             if (process.env.SECRET_KEY && token == process.env.SECRET_KEY) {
                 done(null, {type: 'system'}, {scope: 'all'});
             }
@@ -21,7 +22,7 @@ module.exports = (url)=> {
                     } else {
                         db
                             .collection('accounts')
-                            .find({token: {$eq: token}})
+                            .find({accountToken: {$eq: token}})
                             .limit(1)
                             .next(function (err, doc) {
                                 db.close();

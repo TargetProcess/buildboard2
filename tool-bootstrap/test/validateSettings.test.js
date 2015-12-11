@@ -16,7 +16,7 @@ describe('Validate Settings', function () {
                 'list': {
                     type: 'list'
                 }
-            }, settings))
+            }, settings).next().value)
             .to.be.eql({accountConfig: settings});
     });
     it('should validate urls', ()=> {
@@ -28,7 +28,7 @@ describe('Validate Settings', function () {
                 'url': {
                     type: 'uri'
                 }
-            }, settings))
+            }, settings).next())
             .to.be.eql({accountConfig: settings});
     });
     it('should fail on invalid urls', ()=> {

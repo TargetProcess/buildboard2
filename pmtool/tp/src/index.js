@@ -2,6 +2,8 @@
 
 var tool = require('tool-bootstrap');
 var url = require('url');
+var TP = require('./targetprocess.js');
+
 
 tool.bootstrap(
     {
@@ -32,6 +34,14 @@ tool.bootstrap(
                 optional: true,
                 values: ['UserStory', 'Bug', 'Feature', 'Epic'],
                 defaultValue: ['UserStory', 'Bug']
+            },
+
+            *validation(config){
+                return true;
+                /*
+                 var tp = new TP(config);
+                 return yield tp.validate();*/
+
             }
         },
 
@@ -44,8 +54,6 @@ tool.bootstrap(
         }
     }
 );
-
-var TP = require('./targetprocess.js');
 
 function *tasks() {
 

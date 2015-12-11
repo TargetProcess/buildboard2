@@ -11,7 +11,7 @@ class Targetprocess {
 
         var {token, url} = config;
         this._token = token;
-        this._root = `${url}/api/v2`;
+        this._url = url;
     }
 
     stringifySelect(select) {
@@ -25,7 +25,7 @@ class Targetprocess {
 
     _getOptions(resource, select, where, skip, take) {
         return {
-            url: `${this._root}/${resource}?select=${select || ""}&where=${where || "true"}&skip=${skip}&take=${take}&token=${this._token}`
+            url: `${this._url}/api/v2/${resource}?select=${select || ""}&where=${where || "true"}&skip=${skip}&take=${take}&token=${this._token}`
         };
     }
 
@@ -111,6 +111,42 @@ class Targetprocess {
             where,
             skip, take);
 
+    }
+
+    *validate() {
+        try {
+            var loggedUserResponse = yield request({
+                url: `${this._url}/api/v1/Users/loggedUser?token=${this._token}&format=json&include=[IsActive,DeleteDate,IsAdministrator]`
+            });
+        }
+        catch (e) {
+            return {error: [e]};
+        }
+
+        //if ()
+
+        var result = [];
+
+
+        var body = loggedUserResponse.body;
+        console.log(loggedUserResponse.statusCode, loggedUserResponse.statusMessage);
+
+        if (!body.IsActive) {
+            result.push('User is no active');
+        }
+        if (body.DeleteDate != null) {
+            result.push('User is deleted');
+        }
+        if (!body.IsAdministrator) {
+            result.push('User is not an Administrator');
+        }
+
+        if (result.length > 0) {
+            return {error: result};
+        }
+        else {
+            return true;
+        }
     }
 }
 

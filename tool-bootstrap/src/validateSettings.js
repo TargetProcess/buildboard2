@@ -18,12 +18,17 @@ var validators = {
 
 module.exports = {
     validators,
-    validateSettings (settingsInfo, settings) {
+    *validateSettings (settingsInfo, settings) {
+        var customValidation = _.isFunction(settingsInfo.validation) && settingsInfo.validation;
+
         if (!_.isArray(settingsInfo)) {
-            settingsInfo = _.map(settingsInfo, (v, k)=> {
-                v.id = k;
-                return v;
-            });
+            settingsInfo = _(settingsInfo)
+                .omit('validation')
+                .map((v, k)=> {
+                    v.id = k;
+                    return v;
+                })
+                .value();
         }
 
         var error = _(settingsInfo)
@@ -34,7 +39,7 @@ module.exports = {
                     if (config.optional) {
                         return;
                     } else {
-                        return `'${id} is required'`;
+                        return `'${id}' is required`;
                     }
                 }
                 var validator = validators[config.type];
@@ -52,9 +57,23 @@ module.exports = {
             })
             .compact()
             .value();
-        if (error.length == 0)
-            return {accountConfig: settings};
-        else
+
+
+        if (error.length !== 0) {
             return {error};
+        }
+
+
+        if (customValidation) {
+            console.log(customValidation.toString());
+            var customValidationResult = yield customValidation(settings);
+            console.log(customValidationResult);
+            if (customValidationResult !== true) {
+                return {error: customValidationResult.error || ['Tool validation failed']}
+            }
+        }
+
+        return {accountConfig: settings};
     }
+
 };

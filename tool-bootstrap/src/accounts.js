@@ -42,7 +42,7 @@ module.exports = function (settings, mongoConfig) {
 
     function *createOrUpdate() {
         console.log(this.request.body);
-        var {error,accountConfig} = validateSettings(settings, this.request.body.config);
+        var {error,accountConfig} = yield validateSettings(settings, this.request.body.config);
         if (error) {
             this.status = 400;
             this.body = error;
@@ -81,35 +81,4 @@ module.exports = function (settings, mongoConfig) {
                 .delete('/account/:accountToken', checkSystemPassport, getAccount, deleteAccount);
         }
     };
-
-
-    /*   *createAccount(){
-     if (this.passport.user.type == 'system') {
-
-     var {error,accountConfig} = validateSettings(settings, this.request.body.config);
-
-     if (error) {
-     this.status = 404;
-     this.body = error;
-     }
-     else {
-     var account = {
-     name: this.request.body.name,
-     token: this.request.body.accountToken,
-     config: accountConfig
-     };
-     this.mongo.db(mongo.db)
-     .collection('accounts')
-     .insertOne(
-     account
-     );
-     this.body = account;
-     }
-     } else {
-     this.status = 401;
-     this.body = {success: false}
-     }
-
-     }
-     }*/
 };

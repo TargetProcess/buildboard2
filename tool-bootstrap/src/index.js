@@ -8,7 +8,7 @@ var Mongo = require('koa-mongo');
 
 
 module.exports = {
-    bootstrap({ port, mongo, settings, methods }, securedRouter)
+    bootstrap({ port, mongo, settings, methods }, securedRouterCallback)
     {
         // body parser
         const bodyParser = require('koa-bodyparser');
@@ -71,29 +71,26 @@ module.exports = {
             }
         });
 
-
-        var router = new Router();
-
+        var securedRouter = new Router();
 
         var accountController = require('./accounts')(settings, mongo);
+        accountController.setupRoutes(securedRouter);
 
-        accountController.setupRoutes(router);
-
-        if (securedRouter) {
-            securedRouter({
-                router
+        if (securedRouterCallback) {
+            securedRouterCallback({
+                router: securedRouter
             });
         }
 
         _.each(methods, (method, methodName)=> {
             _.each(method, (config, action)=> {
-                router[action](methodName, config.action)
+                securedRouter[action](methodName, config.action)
             });
         });
 
         app
-            .use(router.routes())
-            .use(router.allowedMethods());
+            .use(securedRouter.routes())
+            .use(securedRouter.allowedMethods());
 
         app.listen(port);
 
