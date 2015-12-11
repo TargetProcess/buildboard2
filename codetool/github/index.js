@@ -68,7 +68,7 @@ function *branches() {
     }));
 
     var config = this.passport.user.config;
-    github.authenticate({type: 'oauth', token: config.token});
+    github.authenticate({type: 'oauth', token: config.authentication});
 
     var repo = {user: config.user, repo: config.repo};
     let branches = yield getAll(repo, github.repos.getBranches);
