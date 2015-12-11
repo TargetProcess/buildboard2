@@ -124,6 +124,7 @@ class Targetprocess {
         }
 
         if (loggedUserResponse.statusCode != 200) {
+            console.log(loggedUserResponse.body);
             return {error: {statusCode: loggedUserResponse.statusCode, statusMessage: loggedUserResponse.statusMessage}}
         }
 
@@ -131,7 +132,9 @@ class Targetprocess {
 
 
         var body = loggedUserResponse.body;
-        console.log(loggedUserResponse.statusCode, loggedUserResponse.statusMessage);
+        if (_.isString(body)) {
+            body = JSON.parse(body);
+        }
 
         if (!body.IsActive) {
             result.push('User is no active');
