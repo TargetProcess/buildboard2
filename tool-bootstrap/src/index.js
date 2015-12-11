@@ -71,39 +71,13 @@ module.exports = {
             }
         });
 
-        var validateSettings = require('./validateSettings').validateSettings;
 
         var router = new Router();
 
 
-        router.post('/account', function *() {
-            if (this.passport.user.type == 'system') {
+        var accountController = require('./accounts')(settings, mongo);
 
-                var {error,accountConfig} = validateSettings(settings, this.request.body.config);
-
-                if (error) {
-                    this.status = 404;
-                    this.body = error;
-                }
-                else {
-                    var account = {
-                        name: this.request.body.name,
-                        token: this.request.body.accountToken,
-                        config: accountConfig
-                    };
-                    this.mongo.db(mongo.db)
-                        .collection('accounts')
-                        .insertOne(
-                            account
-                        );
-                    this.body = account;
-                }
-            } else {
-                this.status = 401;
-                this.body = {success: false}
-            }
-        });
-
+        accountController.setupRoutes(router);
 
         if (securedRouter) {
             securedRouter({

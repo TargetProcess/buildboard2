@@ -27,12 +27,15 @@ module.exports = {
         }
 
         var error = _(settingsInfo)
-            .filter(config=>!config.optinal)
             .map(config=> {
                 var id = config.id;
                 var value = settings[id];
                 if (!value) {
-                    return `'${id} is required'`;
+                    if (config.optional) {
+                        return;
+                    } else {
+                        return `'${id} is required'`;
+                    }
                 }
                 var validator = validators[config.type];
                 if (!validator) {
