@@ -37,11 +37,8 @@ tool.bootstrap(
             },
 
             *validation(config){
-                return true;
-                /*
                  var tp = new TP(config);
-                 return yield tp.validate();*/
-
+                return yield tp.validate();
             }
         },
 
