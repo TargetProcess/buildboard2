@@ -71,9 +71,7 @@ module.exports = {
             }
         });
 
-        var validateSettings = function (settingsInfo, settings) {
-            return {error: null, accountConfig: settings};
-        };
+        var validateSettings = require('./validateSettings').validateSettings;
 
         var router = new Router();
 
