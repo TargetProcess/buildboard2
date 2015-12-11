@@ -5,19 +5,28 @@
         </div>
         <div class="mdl-card__supporting-text">
             <div>
-                <label for="{{type}}">Choose project tool</label>
-                <select class="js-tool" name="tool" id="{{type}}">
-                    {{#each tools}}
-                        <option>None</option>
-                        <option value="{{id}}">{{name}}</option>
-                    {{/each}}
-                </select>
+                {{#if currentValue}}
+                    <div>
+                        Project tool: {{currentTool}}
+                        <input type="hidden" class="js-tool js-{{type}}" name="toolId" value="{{currentValue.toolId}}">
+                    </div>
+                {{else}}
+                    <label for="{{type}}">Choose project tool</label>
+                    <select class="js-tool js-{{type}}" name="toolId" id="{{type}}">
+                        {{#each tools}}
+                            <option>None</option>
+                            <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                {{/if}}
             </div>
 
             {{#each fields}}
                 <div>
+
                     <div class="mdl-textfield mdl-js-textfield">
-                        <input autocomplete="off" class="mdl-textfield__input {{jsClass ..}}" type="text"/>
+                        <input autocomplete="off" name="{{name}}" required="{{#if isRequire}}required{{/if}}"
+                               class="mdl-textfield__input {{jsClass ..}}" type="text"/>
                         <label class="mdl-textfield__label">{{caption}}</label>
                     </div>
                 </div>

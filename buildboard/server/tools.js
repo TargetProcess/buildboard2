@@ -1,8 +1,16 @@
+var findToolByTypeAndId = function (type, id) {
+    var tools = Meteor.settings.tools;
+    var tool = _.chain(tools)
+        .find(tool => tool.type === type)
+        .pick('tools').value();
+    return _.find(tool.tools, tool=>tool.id === id);
+};
 class ToolBase {
-    constructor(accountToken, config) {
+    constructor(config, toolType) {
         if (config) {
-            this._url = config.url;
-            this._accountToken = accountToken;
+            var tool = findToolByTypeAndId(toolType, config.toolId);
+            this._url = Meteor.settings.url + ':' + tool.port;
+            this._accountToken = config.accountToken;
         }
     }
 
@@ -25,18 +33,30 @@ class ToolBase {
 }
 
 PMTool = class PMTool extends ToolBase {
+    constructor(config) {
+        super(config, 'PMTool');
+    }
+
     getTasks() {
         return this._get('tasks');
     }
 };
 
 CodeTool = class CodeTool extends ToolBase {
+    constructor(config) {
+        super(config, 'CodeTool');
+    }
+
     getBranches() {
         return this._get('branches');
     }
 };
 
 BuildTool = class BuildTool extends ToolBase {
+    constructor(config) {
+        super(config, 'BuildTool');
+    }
+
     getBuilds() {
         return this._get('builds');
     }

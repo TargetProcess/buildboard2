@@ -13,6 +13,12 @@ Template.toolSettings.helpers({
     fields() {
         return this.reactFields.get();
     },
+    currentTool() {
+      return this.tools.find(tool=>tool.id === this.currentValue.toolId).name;
+    },
+    isRequire() {
+        return !this.optional;
+    },
     jsClass(parent) {
         return 'js-' + parent.type;
     }

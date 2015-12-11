@@ -31,33 +31,42 @@ if (Meteor.isClient) {
     Meteor.subscribe("accounts");
 }
 
-Router.route('/:account/refresh',
+if (Meteor.isServer) {
+    Meteor.methods({
+        refresh(account) {
+            var config = BuildBoardAccounts.findOne({id: account});
+            if (config) {
+                var pmTool = new PMTool(config.tools.PMTool);
+                var codeTool = new CodeTool(config.tools.CodeTool);
+                var buildTool = new BuildTool(config.tools.BuildTool);
 
+                var tasks = pmTool.getTasks();
+
+                var branches = codeTool.getBranches();
+                var builds = buildTool.getBuilds();
+                var items = mapItems(branches, tasks, builds, account);
+
+                Items.remove({account});
+                items.forEach(i=>Items.insert(i));
+
+                //      this.response.end(JSON.stringify(items));
+            }
+            else {
+                //       this.response.statusCode = 404;
+                //     this.response.end(JSON.stringify({status: "404", message: `account "${account}" not found.`}));
+            }
+        }
+    });
+}
+
+
+Router.route('/:account/refresh',
     function () {
         var account = this.params.account;
-        var config = BuildBoardAccounts.findOne({id: {$eq: account}});
-        if (config) {
-            var pmTool = new PMTool(config.token, config.tools.pm);
-            var codeTool = new CodeTool(config.token, config.tools.code);
-            var buildTool = new BuildTool(config.token, config.tools.build);
-
-            var tasks = pmTool.getTasks();
-
-
-            var branches = codeTool.getBranches();
-            var builds = buildTool.getBuilds();
-            var items = mapItems(branches, tasks, builds, account);
-
-            Items.remove({account});
-            items.forEach(i=>Items.insert(i));
-
-            this.response.end(JSON.stringify(items));
-        }
-        else {
-            this.response.statusCode = 404;
-            this.response.end(JSON.stringify({status: "404", message: `account "${account}" not found.`}));
-        }
-    }, {where: 'server'});
+        Meteor.call('refresh', account, function () {
+            Router.go('/' + account)
+        });
+    });
 
 Router.route('/', {
     loadingTemplate: 'loading',
@@ -103,7 +112,7 @@ Router.route('/:account/edit',
         action() {
 
             this.render('editAccount', {
-                data: ()=> BuildBoardAccounts.findOne({id:this.params.account})
+                data: ()=> BuildBoardAccounts.findOne({id: this.params.account})
             });
         }
     }
