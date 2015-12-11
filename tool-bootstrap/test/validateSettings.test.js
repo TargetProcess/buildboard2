@@ -28,7 +28,7 @@ describe('Validate Settings', function () {
                 'url': {
                     type: 'uri'
                 }
-            }, settings).next())
+            }, settings).next().value)
             .to.be.eql({accountConfig: settings});
     });
     it('should fail on invalid urls', ()=> {
@@ -37,7 +37,7 @@ describe('Validate Settings', function () {
         };
         expect(validateSettings({
             url: {type: 'uri'}
-        }, settings))
+        }, settings).next().value)
             .to.be.eql({
             "error": [
                 "'url' has invalid type, should be uri"

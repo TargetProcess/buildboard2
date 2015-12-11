@@ -65,9 +65,7 @@ module.exports = {
 
 
         if (customValidation) {
-            console.log(customValidation.toString());
             var customValidationResult = yield customValidation(settings);
-            console.log(customValidationResult);
             if (customValidationResult !== true) {
                 return {error: customValidationResult.error || ['Tool validation failed']}
             }

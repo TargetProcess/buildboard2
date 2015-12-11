@@ -123,7 +123,9 @@ class Targetprocess {
             return {error: [e]};
         }
 
-        //if ()
+        if (loggedUserResponse.statusCode != 200) {
+            return {error: {statusCode: loggedUserResponse.statusCode, statusMessage: loggedUserResponse.statusMessage}}
+        }
 
         var result = [];
 
