@@ -41,7 +41,7 @@ module.exports = function (settings, mongoConfig) {
 
 
     function *createOrUpdate() {
-
+        console.log(this.request.body);
         var {error,accountConfig} = validateSettings(settings, this.request.body.config);
         if (error) {
             this.status = 400;
