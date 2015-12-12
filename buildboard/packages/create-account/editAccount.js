@@ -39,7 +39,7 @@ Template.editAccount.events({
             if (err) {
                 alert(JSON.stringify(err))
             } else {
-                alert('Успех')
+
             }
         })
     }
