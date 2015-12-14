@@ -28,7 +28,12 @@ Meteor.methods({
         var accountSettings = {};
         if(account) {
             var accountUrl = settings.url + ':' + tool.port + '/account/' + account + `?token=${settings.secret}`;
-            accountSettings = HTTP.get(accountUrl).data.config;
+            try {
+                accountSettings = HTTP.get(accountUrl).data.config;
+            } catch(e) {
+                accountSettings = {};
+            }
+
         }
 
         return _.map(HTTP.get(url).data.settings, (obj, key)=> {

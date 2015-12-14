@@ -29,17 +29,15 @@ Meteor.methods({
                     accountToken,
                     config: _.omit(tool, 'toolId', 'type')
                 };
-                return createToolAccount(tool.type, tool.toolId, id, params).then(()=>{
+                return createToolAccount(tool.type, tool.toolId, id, params).then(()=> {
                     BuildBoardAccounts.update(id, {$set: {id: settings.id, tools: tools}});
-                }).catch((e)=>{
-                    return e;
+                }).catch((e)=> {
+                    return {error: e.response.data};
                 });
             }).value();
-            Promise.all(tools).then((e)=> {
-                return {res: true};
+            return Promise.all(tools).then((results)=> {
+                return results;
             });
-            // BuildBoardAccounts.update(id, {$set: {id: settings.id, tools: tools}});
-
         }
     },
     initTools() {
